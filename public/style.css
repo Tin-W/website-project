@@ -1,0 +1,232 @@
+/* Marketplace 雙欄版型 */
+.marketplace-layout {
+  display: flex;
+  max-width: 1280px;
+  margin: 20px auto;
+  gap: 24px;
+  padding: 0 20px;
+}
+
+/* 側邊欄 Filter */
+.sidebar {
+  width: 220px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  height: fit-content;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #64748b;
+  margin: 15px 0 8px 0;
+  text-transform: uppercase;
+}
+
+.filter-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #334155;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+/* 右側主內容區 */
+.main-content {
+  flex: 1;
+}
+
+/* 藍色 Banner */
+.marketplace-banner {
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
+  padding: 28px 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.marketplace-banner h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vendor-count {
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.marketplace-banner p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+/* 卡片 Layout */
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.model-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.model-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.model-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.model-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.model-title h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.buy-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.buy-btn:hover {
+  background: #1d4ed8;
+}
+
+.card-body p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.card-body strong {
+  color: #334155;
+}
+
+.card-footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.badge {
+  display: inline-block;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #bbf7d0;
+}body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; color: #334155; }
+.container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+/* 頂部導覽列 */
+.navbar { display: flex; justify-content: space-between; padding: 15px 40px; background: #0f172a; color: white; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.navbar .logo { font-size: 20px; font-weight: bold; color: #38bdf8; }
+.nav-links a { color: #94a3b8; text-decoration: none; margin: 0 15px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: #ffffff; border-bottom: 2px solid #38bdf8; padding-bottom: 4px; }
+.actions select, .actions button { background: #1e293b; border: 1px solid #475569; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+/* 首頁 Hero 區塊 */
+.hero { background: #ffffff; padding: 60px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+.hero h1 { font-size: 36px; color: #0f172a; }
+.cta-button { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #0284c7; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+
+/* Marketplace 雙欄版型 */
+.marketplace-layout { display: flex; max-width: 1280px; margin: 20px auto; gap: 24px; padding: 0 20px; }
+
+/* 側邊欄 Filter */
+.sidebar { width: 220px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; height: fit-content; }
+.sidebar h3 { margin-top: 0; font-size: 18px; color: #0f172a; }
+.filter-group label { display: block; font-size: 12px; font-weight: bold; color: #64748b; margin: 15px 0 8px 0; text-transform: uppercase; }
+.filter-btn { display: block; width: 100%; text-align: left; padding: 8px 12px; margin-bottom: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; color: #334155; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: #eff6ff; border-color: #3b82f6; color: #2563eb; font-weight: bold; }
+
+/* 右側主內容區 */
+.main-content { flex: 1; }
+.marketplace-banner { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 28px 32px; border-radius: 12px; margin-bottom: 24px; }
+.marketplace-banner h2 { margin: 0 0 8px 0; font-size: 24px; display: flex; align-items: center; gap: 12px; }
+.vendor-count { background: rgba(255, 255, 255, 0.2); font-size: 12px; padding: 2px 10px; border-radius: 12px; }
+.marketplace-banner p { margin: 0; opacity: 0.9; font-size: 14px; }
+
+/* 模型卡片 Grid */
+.model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.model-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+.model-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.06); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.model-title { display: flex; align-items: center; gap: 10px; }
+.model-logo { width: 28px; height: 28px; object-fit: contain; }
+.model-title h3 { margin: 0; font-size: 16px; color: #0f172a; }
+.buy-btn { background: #2563eb; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.buy-btn:hover { background: #1d4ed8; }
+.card-body p { margin: 6px 0; font-size: 13px; color: #64748b; }
+.card-body strong { color: #334155; }
+.card-footer { margin-top: 14px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+.badge { display: inline-block; background: #f0fdf4; color: #166534; font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #bbf7d0; }
+
+/* About 頁面專屬 */
+.profile-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px; max-width: 440px; margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.company-tag { display: inline-block; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; }
+.member-name { font-size: 22px; color: #1e293b; margin: 0 0 4px 0; }
+.member-name .cn-name { font-size: 18px; color: #64748b; font-weight: normal; }
+.member-role { font-size: 14px; color: #0284c7; font-weight: 600; margin: 0 0 16px 0; }
+.card-divider { border: none; border-top: 1px solid #f1f5f9; margin: 16px 0; }
+.contact-info p { font-size: 13px; color: #475569; margin: 8px 0; line-height: 1.5; }
+.contact-info a { color: #2563eb; text-decoration: none; }
+.designer-credits { margin-top: 40px; text-align: center; font-size: 14px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 20px; }

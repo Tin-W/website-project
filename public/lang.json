@@ -1,0 +1,40 @@
+{
+  "zh": {
+    "brand": "AXG 購物網",
+    "nav_home": "首頁",
+    "nav_market": "商城",
+    "nav_about": "關於我們",
+    "nav_login": "登入 / 註冊",
+    "hero_title": "探索品質生活",
+    "hero_desc": "提供全球精選頂級商品，為您打造優質生活體驗。",
+    "filter_title": "篩選器",
+    "filter_provider": "供應商",
+    "filter_all": "所有廠商",
+    "banner_title": "所有模型供應商",
+    "banner_desc": "查看所有可用的 AI 模型供應商，包含 OpenAI、DeepSeek 與 Anthropic。",
+    "buy_btn": "購買",
+    "team_title": "核心團隊與聯絡資訊",
+    "role_director": "總監",
+    "address_label": "地址",
+    "website_designer": "網頁設計師"
+  },
+  "en": {
+    "brand": "AXG Shop",
+    "nav_home": "Home",
+    "nav_market": "Marketplace",
+    "nav_about": "About Us",
+    "nav_login": "Login / Register",
+    "hero_title": "Explore Quality Living",
+    "hero_desc": "Curating premium goods worldwide for an elevated lifestyle.",
+    "filter_title": "Filter",
+    "filter_provider": "Provider",
+    "filter_all": "All vendors",
+    "banner_title": "All vendors",
+    "banner_desc": "View all available AI model suppliers, including models from OpenAI, DeepSeek, and Anthropic.",
+    "buy_btn": "Buy",
+    "team_title": "Core Team & Contact Info",
+    "role_director": "Director",
+    "address_label": "Address",
+    "website_designer": "Website Designer"
+  }
+}

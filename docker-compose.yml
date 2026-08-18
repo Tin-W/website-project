@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # MongoDB 資料庫服務
+  mongodb:
+    image: mongo:latest
+    container_name: ecommerce_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Node.js 後端服務
+  app:
+    image: node:18-alpine
+    container_name: ecommerce_app
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && node server.js"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_data:

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXG Admin - 後台商品管理</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 15px; text-align: left; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #334155; }
+    .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    .submit-btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .submit-btn:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h2>➕ 新增 AI 模型商品</h2>
+    <form id="addProductForm">
+      <div class="form-group">
+        <label>模型 ID (例如: gpt-5.4)</label>
+        <input type="text" id="modelId" required>
+      </div>
+      <div class="form-group">
+        <label>廠商 (Provider)</label>
+        <select id="provider" required>
+          <option value="openai">OpenAI</option>
+          <option value="deepseek">DeepSeek</option>
+          <option value="claude">Anthropic (Claude)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>顯示名稱 (Name)</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label>Logo 圖片路徑 (例如: /images/openai.jpeg)</label>
+        <input type="text" id="logo" required>
+      </div>
+      <div class="form-group">
+        <label>Input 價格 (例如: $2.2500 / 1M Tokens)</label>
+        <input type="text" id="inputPrice" required>
+      </div>
+      <div class="form-group">
+        <label>Output 價格 (例如: $13.5000 / 1M Tokens)</label>
+        <input type="text" id="outputPrice" required>
+      </div>
+      <button type="submit" class="submit-btn">新增商品至 Marketplace</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const productData = {
+        modelId: document.getElementById('modelId').value,
+        provider: document.getElementById('provider').value,
+        name: document.getElementById('name').value,
+        logo: document.getElementById('logo').value,
+        inputPrice: document.getElementById('inputPrice').value,
+        outputPrice: document.getElementById('outputPrice').value,
+        tag: 'Pay as you go'
+      };
+
+      try {
+        const res = await fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('✅ 商品新增成功！');
+          document.getElementById('addProductForm').reset();
+        } else {
+          alert('❌ 新增失敗：' + data.message);
+        }
+      } catch (err) {
+        alert('網路錯誤或後端未啟動');
+      }
+    });
+  </script>
+</body>
+</html>
