@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXG - 個人消費紀錄</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #f8fafc; }
+    .profile-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+    .card { background: white; border-radius: 8px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; font-size: 14px; color: #334155; }
+    th { background: #f1f5f9; font-weight: bold; }
+    .logout-btn { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; float: right; }
+  </style>
+</head>
+<body>
+  <!-- 導覽列 -->
+<!-- 統一由 app.js 動態生成的導覽列 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 內容區 -->
+  <div class="profile-container">
+    <h2>👤 我的專屬消費紀錄</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>訂單 ID</th><th>購買模型</th><th>金額 (USD)</th><th>交易時間</th></tr>
+        </thead>
+        <tbody id="myOrderTable">
+          <tr><td colspan="4">驗證身分中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('user_token');
+      
+      // 防護：若未登入，強制導回首頁
+      if (!token) {
+        alert('請先登入！');
+        window.location.href = 'index.html';
+        return;
+      }
+      
+      // 載入該會員的個人訂單
+      loadMyOrders(token);
+    });
+
+    async function loadMyOrders(token) {
+      try {
+        const res = await fetch('/api/orders/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        
+        const tbody = document.getElementById('myOrderTable');
+        
+        if (data.success) {
+          if (data.orders.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">尚無消費紀錄</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.orders.map(o => `
+            <tr>
+              <td>${o._id}</td>
+              <td>${o.modelId}</td>
+              <td><strong>$${o.amount}</strong></td>
+              <td>${new Date(o.createdAt).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="4" style="color:red;">${data.message}</td></tr>`;
+        }
+      } catch (err) {
+        alert('無法連線到伺服器讀取紀錄。');
+      }
+    }
+
+    // 簡易登出邏輯
+    function logout() {
+      localStorage.removeItem('user_token');
+      localStorage.removeItem('user_role');
+      alert('已成功登出！');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

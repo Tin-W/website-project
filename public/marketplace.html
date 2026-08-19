@@ -8,22 +8,8 @@
 </head>
 <body>
   <!-- 導覽列 -->
-  <nav class="navbar">
-    <div class="logo" data-i18n="brand">AXG 購物網</div>
-    <div class="nav-links">
-      <a href="index.html" data-i18n="nav_home">首頁</a>
-      <a href="marketplace.html" class="active" data-i18n="nav_market">商城</a>
-      <a href="about.html" data-i18n="nav_about">關於我們</a>
-      <a href="admin.html" style="color: #f59e0b; font-weight: bold;">後台管理</a> <!-- 新增這行 -->
-    </div>
-    <div class="actions">
-      <select id="langSelect" onchange="changeLanguage(this.value)">
-        <option value="zh">繁體中文</option>
-        <option value="en">English</option>
-      </select>
-      <button onclick="alert('登入功能開發中')" data-i18n="nav_login">登入 / 註冊</button>
-    </div>
-  </nav>
+<!-- 統一由 app.js 動態生成的導覽列 -->
+<div id="navbar-placeholder"></div>
 
   <!-- 主區域：側邊欄 + 內容區 -->
   <div class="marketplace-layout">

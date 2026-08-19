@@ -3,83 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AXG Admin - 後台商品管理</title>
+  <title>AXG Admin - 後台管理系統</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .admin-container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .form-group { margin-bottom: 15px; text-align: left; }
-    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #334155; }
-    .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
-    .submit-btn { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    .submit-btn:hover { background: #1d4ed8; }
+    body { background: #f1f5f9; font-family: sans-serif; }
+    .admin-dashboard { max-width: 1000px; margin: 40px auto; padding: 20px; display: none; }
+    .card { background: white; border-radius: 8px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; font-size: 14px; }
+    th { background: #f8fafc; font-weight: bold; color: #334155; }
+    .badge-admin { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-user { background: #e0f2fe; color: #075985; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
   </style>
 </head>
 <body>
-  <div class="admin-container">
-    <h2>➕ 新增 AI 模型商品</h2>
-    <form id="addProductForm">
-      <div class="form-group">
-        <label>模型 ID (例如: gpt-5.4)</label>
-        <input type="text" id="modelId" required>
-      </div>
-      <div class="form-group">
-        <label>廠商 (Provider)</label>
-        <select id="provider" required>
-          <option value="openai">OpenAI</option>
-          <option value="deepseek">DeepSeek</option>
-          <option value="claude">Anthropic (Claude)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>顯示名稱 (Name)</label>
-        <input type="text" id="name" required>
-      </div>
-      <div class="form-group">
-        <label>Logo 圖片路徑 (例如: /images/openai.jpeg)</label>
-        <input type="text" id="logo" required>
-      </div>
-      <div class="form-group">
-        <label>Input 價格 (例如: $2.2500 / 1M Tokens)</label>
-        <input type="text" id="inputPrice" required>
-      </div>
-      <div class="form-group">
-        <label>Output 價格 (例如: $13.5000 / 1M Tokens)</label>
-        <input type="text" id="outputPrice" required>
-      </div>
-      <button type="submit" class="submit-btn">新增商品至 Marketplace</button>
-    </form>
+  <!-- 內容預設隱藏，驗證通過才顯示 -->
+  <div class="admin-dashboard" id="adminContent">
+    <h2>⚙️ AXG 後台管理總覽</h2>
+
+    <!-- 用戶列表區塊 -->
+    <div class="card">
+      <h3>👥 註冊用戶列表</h3>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Email</th><th>身分 (Role)</th><th>註冊時間</th></tr>
+        </thead>
+        <tbody id="userTable">
+          <tr><td colspan="4">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 消費紀錄區塊 -->
+    <div class="card">
+      <h3>💳 全站消費紀錄</h3>
+      <table>
+        <thead>
+          <tr><th>訂單 ID</th><th>用戶 Email</th><th>購買模型</th><th>金額 (USD)</th><th>交易時間</th></tr>
+        </thead>
+        <tbody id="orderTable">
+          <tr><td colspan="5">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
-    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const productData = {
-        modelId: document.getElementById('modelId').value,
-        provider: document.getElementById('provider').value,
-        name: document.getElementById('name').value,
-        logo: document.getElementById('logo').value,
-        inputPrice: document.getElementById('inputPrice').value,
-        outputPrice: document.getElementById('outputPrice').value,
-        tag: 'Pay as you go'
-      };
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. 檢查 LocalStorage 中的驗證資訊
+      const token = localStorage.getItem('user_token');
+      const role = localStorage.getItem('user_role');
+
+      // 2. 防護邏輯：非管理員直接踢回首頁
+      if (!token || role !== 'admin') {
+        alert('❌ 存取拒絕：您沒有管理員權限！');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // 3. 驗證通過，顯示頁面並拉取資料
+      document.getElementById('adminContent').style.display = 'block';
+      loadAdminData(token);
+    });
+
+    // 拉取後台資料
+    async function loadAdminData(token) {
+      const headers = { 'Authorization': `Bearer ${token}` };
 
       try {
-        const res = await fetch('/api/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(productData)
-        });
-        const data = await res.json();
-        if (data.success) {
-          alert('✅ 商品新增成功！');
-          document.getElementById('addProductForm').reset();
-        } else {
-          alert('❌ 新增失敗：' + data.message);
+        // 取得用戶列表
+        const userRes = await fetch('/api/admin/users', { headers });
+        const userData = await userRes.json();
+        if (userData.success) {
+          const userTable = document.getElementById('userTable');
+          userTable.innerHTML = userData.users.map(u => `
+            <tr>
+              <td>${u._id}</td>
+              <td>${u.email}</td>
+              <td><span class="${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role}</span></td>
+              <td>${new Date(u.createdAt).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
+
+        // 取得消費訂單
+        const orderRes = await fetch('/api/admin/orders', { headers });
+        const orderData = await orderRes.json();
+        if (orderData.success) {
+          const orderTable = document.getElementById('orderTable');
+          orderTable.innerHTML = orderData.orders.map(o => `
+            <tr>
+              <td>${o._id}</td>
+              <td>${o.userEmail}</td>
+              <td>${o.modelId}</td>
+              <td><strong>$${o.amount}</strong></td>
+              <td>${new Date(o.createdAt).toLocaleString()}</td>
+            </tr>
+          `).join('');
         }
       } catch (err) {
-        alert('網路錯誤或後端未啟動');
+        console.error('資料載入失敗', err);
+        alert('讀取後台數據時發生錯誤。');
       }
-    });
+    }
   </script>
 </body>
 </html>

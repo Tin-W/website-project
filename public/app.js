@@ -165,3 +165,75 @@ async function simulateCheckout(modelId) {
     alert('請確認 Docker / 後端伺服器運行於 http://localhost:3000！');
   }
 }
+
+// 統一動態渲染導覽列與權限狀態
+function renderNavbar() {
+  const placeholder = document.getElementById('navbar-placeholder');
+  if (!placeholder) return;
+
+  const token = localStorage.getItem('user_token');
+  const role = localStorage.getItem('user_role');
+
+  // 根據登入狀態決定是否顯示「個人紀錄」與「後台管理」
+  const profileLink = token ? `<a href="profile.html">個人紀錄</a>` : '';
+  const adminLink = (token && role === 'admin') ? `<a href="admin.html" style="color: #f59e0b; font-weight: bold;">後台管理</a>` : '';
+  
+  // 依據是否登入切換右側按鈕（登入按鈕 vs 登出按鈕）
+  const authAction = token 
+    ? `<button onclick="logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">登出</button>`
+    : `<a href="login.html" style="background: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none;">登入 / 註冊</a>`;
+
+  placeholder.innerHTML = `
+    <nav class="navbar">
+      <div class="logo">AXG 購物網</div>
+      <div class="nav-links">
+        <a href="index.html">首頁</a>
+        <a href="marketplace.html">商城</a>
+        <a href="about.html">關於我們</a>
+        ${profileLink}
+        ${adminLink}
+      </div>
+      <div class="actions">
+        <select id="langSelect" onchange="changeLanguage(this.value)">
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+        </select>
+        ${authAction}
+      </div>
+    </nav>
+  `;
+
+  // 保持原本語言下拉選單的選中狀態
+  const langSelect = document.getElementById('langSelect');
+  if (langSelect) langSelect.value = currentLang;
+}
+
+// 簡易全域登出函數
+function logout() {
+  localStorage.removeItem('user_token');
+  localStorage.removeItem('user_role');
+  alert('已成功登出！');
+  window.location.href = 'index.html';
+}
+
+// 在網頁載入時執行渲染
+document.addEventListener('DOMContentLoaded', () => {
+  renderNavbar();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('user_token');
+  const role = localStorage.getItem('user_role');
+
+  // 如果有登入 (有 token)，就顯示「個人紀錄」
+  if (token) {
+    const navProfile = document.getElementById('nav-profile');
+    if (navProfile) navProfile.style.display = 'inline-block';
+    
+    // 如果角色是 admin，才顯示「後台管理」
+    if (role === 'admin') {
+      const navAdmin = document.getElementById('nav-admin');
+      if (navAdmin) navAdmin.style.display = 'inline-block';
+    }
+  }
+});
